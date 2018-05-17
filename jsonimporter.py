@@ -2,6 +2,19 @@ import json
 import bisect
 import copy
 
+# Usage:
+# somevar = importjson(filename)
+# this will return a fullgame() object with all of the timetiles
+# The filename should be formatted 'dummygame.json' if it's in the same directory
+# To view the timetiles, use:
+# printtiles(somevar)
+# Timetiles are 8 minutes long, containing all units which were built during
+# that duration
+
+# zunits = ['Drone', 'Queen', 'Zergling', 'Baneling', 'Roach', 'Ravager', 'Hydralisk', 'Lurker', 'Infestor', 'Swarm Host', 'Ultralisk', 'Overlord', 'Overseer', 'Mutalisk', 'Corruptor', 'Brood Lord', 'Viper']
+# punits =
+# tunits =
+
 class timetile:
     playerdict = dict()
 
