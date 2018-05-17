@@ -1,6 +1,7 @@
 import json
 import bisect
 import copy
+import math
 
 # Usage:
 # somevar = importjson(filename)
@@ -10,10 +11,6 @@ import copy
 # printtiles(somevar)
 # Timetiles are 8 minutes long, containing all units which were built during
 # that duration
-
-# zunits = ['Drone', 'Queen', 'Zergling', 'Baneling', 'Roach', 'Ravager', 'Hydralisk', 'Lurker', 'Infestor', 'Swarm Host', 'Ultralisk', 'Overlord', 'Overseer', 'Mutalisk', 'Corruptor', 'Brood Lord', 'Viper']
-# punits =
-# tunits =
 
 class timetile:
     playerdict = dict()
@@ -55,7 +52,6 @@ def importjson(filename):
     # create the class objects
     # number of 8-minute time tiles in the game
     gametiles = int(math.ceil(maxt/480.0))
-    print(gametiles)
     fgame = fullgame(gametiles)
 
     # Iterate through the tile tiles for the game
@@ -65,14 +61,10 @@ def importjson(filename):
         for k,v in p1.items():
             # Get the indices for the time cutoff of this tile
             tileindu = bisect.bisect_left(v,(i+1)*480)
-            print(tileindu)
             tileindl = bisect.bisect_left(v,(i)*480)
-            print(tileindl)
 
             # Abridge the dictionary to the tile
             abrdict[k] = v[tileindl:tileindu]
-
-            print(abrdict)
 
         # Set the abriged list for this tile
         fgame.p1t[i].playerdict = copy.deepcopy(abrdict)
