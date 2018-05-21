@@ -4,14 +4,19 @@ import copy
 import math
 
 # Usage:
-# somevar = importjson(filename, tilesize)
+#
+# import jsonimporter
+# somevar = jsonimporter.fullgame(filename, tilesize)
+#
 # this will return a fullgame() object with all of the timetiles
 # The filename should be formatted 'dummygame.json' if it's in the same directory
+#
 # To view the timetiles, use:
 # somevar.printTiles()
 # Timetiles contain timestamps of all units which were built during its duration
+#
 # To return a list of sums:
-# sums = somevar.sumTiles(True) The parameter decides whether to print
+# sums = somevar.sumTiles(True) The parameter decides whether to print or not
 # the return value can then be indexed by sums[player][tileindex]
 
 class timetile:
@@ -41,11 +46,61 @@ class fullgame:
     _p2t = []
     _tilesize = 0
 
-    def __init__(self, timelength, tilesize):
+    def __init__(self, filename, tilesize):
         self._tilesize = tilesize
-        for i in range(0, timelength):
+        self.importjson(filename)
+
+    def importjson(self, filename):
+        with open(filename) as file:
+            idata = json.load(file)
+
+        # set the dictionaries for each player
+        p1 = idata["p1"]["units"]
+        p2 = idata["p2"]["units"]
+
+        # create a sequence of all the timestamps
+        p1times = p1.values()
+        p2times = p2.values()
+
+        # find the max timestamp (the last unit created)
+        alltimes = p1times + p2times
+        timestamps = []
+        for time in alltimes:
+            timestamps = timestamps + time
+
+        maxt = max(timestamps)
+
+        # create the class objects
+        # number of 8-minute time tiles in the game
+        gametiles = int(math.ceil(maxt/float(self._tilesize)))
+        for i in range(0, gametiles):
             self._p1t = self._p1t + [timetile(i)]
             self._p2t = self._p2t + [timetile(i)]
+
+        # Iterate through the time tiles for the game
+        for tile in range(0, gametiles):
+            # The abridged dictionary for this time tile
+            abrdict = dict()
+            for unit,counts in p1.items():
+                # Get the indices for the time cutoff of this tile
+                tileindu = bisect.bisect_left(counts,(tile+1)*self._tilesize)
+                tileindl = bisect.bisect_left(counts,(tile)*self._tilesize)
+                # Abridge the dictionary to the tile
+                abrdict[unit] = counts[tileindl:tileindu]
+
+            # Set the abriged list for this tile
+            self.setPonedict(tile,copy.deepcopy(abrdict))
+
+            # Do the above for player 2
+            for unit,counts in p2.items():
+                tileindu = bisect.bisect_left(counts,(tile+1)*self._tilesize)
+                tileindl = bisect.bisect_left(counts,(tile)*self._tilesize)
+                abrdict[unit] = counts[tileindl:tileindu]
+
+            self.setPtwodict(tile,copy.deepcopy(abrdict))
+
+        # Returns a fullgame object with p1t and p2t as lists of the timetiles
+        # For instance, fgame.p1t[0] is the units for player 1 between 0 and 480
 
     def setPlayerone(self, tilelist):
         self._p1t = tilelist
@@ -127,54 +182,3 @@ class fullgame:
             index = tile.getTileind()
             print("Tile: " + str(index) + ", t = " + str(index*tsize) + " to " + str((index+1)*tsize-1))
             print(tile.getUnitdict())
-
-def importjson(filename,tilesize):
-    with open(filename) as file:
-        idata = json.load(file)
-
-    # set the dictionaries for each player
-    p1 = idata["p1"]["units"]
-    p2 = idata["p2"]["units"]
-
-    # create a sequence of all the timestamps
-    p1times = p1.values()
-    p2times = p2.values()
-
-    # find the max timestamp (the last unit created)
-    allunits = p1times + p2times
-    timestamps = []
-    for time in allunits:
-        timestamps = timestamps + time
-
-    maxt = max(timestamps)
-
-    # create the class objects
-    # number of 8-minute time tiles in the game
-    gametiles = int(math.ceil(maxt/float(tilesize)))
-    fgame = fullgame(gametiles,tilesize)
-
-    # Iterate through the time tiles for the game
-    for tile in range(0, gametiles):
-        # The abridged dictionary for this time tile
-        abrdict = dict()
-        for unit,counts in p1.items():
-            # Get the indices for the time cutoff of this tile
-            tileindu = bisect.bisect_left(counts,(tile+1)*fgame.getTilesize())
-            tileindl = bisect.bisect_left(counts,(tile)*fgame.getTilesize())
-            # Abridge the dictionary to the tile
-            abrdict[unit] = counts[tileindl:tileindu]
-
-        # Set the abriged list for this tile
-        fgame.setPonedict(tile,copy.deepcopy(abrdict))
-
-        # Do the above for player 2
-        for unit,counts in p2.items():
-            tileindu = bisect.bisect_left(counts,(tile+1)*fgame.getTilesize())
-            tileindl = bisect.bisect_left(counts,(tile)*fgame.getTilesize())
-            abrdict[unit] = counts[tileindl:tileindu]
-
-        fgame.setPtwodict(tile,copy.deepcopy(abrdict))
-
-    # Returns a fullgame object with p1t and p2t as lists of the timetiles
-    # For instance, fgame.p1t[0] is the units for player 1 between 0 and 480s
-    return fgame
