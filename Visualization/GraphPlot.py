@@ -52,6 +52,7 @@ class Grapher:
 
                     ax[row,col].plot(obs_unit,range(len(obs_unit)),linestyle='dotted')
                     ax[row,col].plot(compare_unit,range(len(compare_unit)),linestyle='dotted')
+
                     ax[row,col].set_title(key.split('_')[1].lower(),loc='center')
                     ax[row,col].set_xlim(0,max_time + 500)
                     count += 1
@@ -89,6 +90,7 @@ class Grapher:
 
                     ax[row,col].plot(obs_unit,range(len(obs_unit)),linestyle='dotted')
                     ax[row,col].plot(compare_unit,range(len(compare_unit)),linestyle='dotted')
+
                     
                     ax[row,col].set_xlim(0,max_time + 500)
                     count += 1
