@@ -52,6 +52,7 @@ class Grapher:
 
                     ax[row,col].plot(obs_unit,range(len(obs_unit)),linestyle='dotted')
                     ax[row,col].plot(compare_unit,range(len(compare_unit)),linestyle='dotted')
+
                     ax[row,col].set_title(key.split('_')[1].lower(),loc='center')
                     ax[row,col].set_xlim(0,max_time + 500)
                     count += 1
@@ -89,6 +90,7 @@ class Grapher:
 
                     ax[row,col].plot(obs_unit,range(len(obs_unit)),linestyle='dotted')
                     ax[row,col].plot(compare_unit,range(len(compare_unit)),linestyle='dotted')
+
                     
                     ax[row,col].set_xlim(0,max_time + 500)
                     count += 1
@@ -123,7 +125,11 @@ g = Grapher()
 while(True):
     option = input('InGame(i) or AmongGame(a): ')
     if option == 'InGame' or option == 'i':
+<<<<<<< HEAD
         options = input('race, index, unitToObserve (seperate by a space)\n').split(' ')
+=======
+        options = input('race, unitToObserve (seperate by a space)\n').split(' ')
+>>>>>>> 88ea5e0475e162f02fe569302aa2b0a5d173d9a3
         g.plotInGame(options[0],int(options[1]),options[2])
     elif option == 'AmongGame' or option == 'a':
         options = input('race, unitToObserve, unitToCompare, maxObs(-1 for maximum) (seperate by a space)\n').split(' ')
