@@ -50,8 +50,8 @@ class Grapher:
                     key = next(keyIter)
                     compare_unit = self.data[race][index][key]
 
-                    ax[row,col].plot(obs_unit,range(len(obs_unit)),linestyle='dotted')
-                    ax[row,col].plot(compare_unit,range(len(compare_unit)),linestyle='dotted')
+                    ax[row,col].plot(obs_unit,range(len(obs_unit)),linestyle='',marker="o",markersize=0.7)
+                    ax[row,col].plot(compare_unit,range(len(compare_unit)),linestyle='',marker="o",markersize=0.7)
 
                     ax[row,col].set_title(key.split('_')[1].lower(),loc='center')
                     ax[row,col].set_xlim(0,max_time + 500)
@@ -60,6 +60,7 @@ class Grapher:
                     break
         
         fig.tight_layout()
+        fig.canvas.set_window_title(unitToObserve)
         plt.show()
     
     def toUpper(self,race, name):
@@ -88,11 +89,13 @@ class Grapher:
                     for n in obs_unit + compare_unit:
                         if n > max_time: max_time = n
 
-                    ax[row,col].plot(obs_unit,range(len(obs_unit)),linestyle='dotted')
-                    ax[row,col].plot(compare_unit,range(len(compare_unit)),linestyle='dotted')
+                    ax[row,col].plot(obs_unit,range(len(obs_unit)),linestyle='',marker="o",markersize=0.7,label=unitToObserve)
+                    ax[row,col].plot(compare_unit,range(len(compare_unit)),linestyle='',marker="o",markersize=0.7,label=unitToCompare)
 
                     
                     ax[row,col].set_xlim(0,max_time + 500)
+
+                    ax[row,col].legend(loc='best')
                     count += 1
                 except StopIteration:
                     break
@@ -102,7 +105,6 @@ class Grapher:
             
         
         fig.tight_layout()
-        
         plt.show()
 
     def createGraph(self,rows):
@@ -123,12 +125,15 @@ class Grapher:
 g = Grapher()
 
 while(True):
-    option = input('InGame(i) or AmongGame(a): ')
-    if option == 'InGame' or option == 'i':
-        options = input('race, index, unitToObserve (seperate by a space)\n').split(' ')
-        g.plotInGame(options[0],int(options[1]),options[2])
-    elif option == 'AmongGame' or option == 'a':
-        options = input('race, unitToObserve, unitToCompare, maxObs(-1 for maximum) (seperate by a space)\n').split(' ')
-        g.plotAmongGame(options[0], options[1],options[2], int(options[3]))
-    else:
-        print('wrong input')
+    try:
+        option = input('InGame(i) or AmongGame(a): ')
+        if option == 'InGame' or option == 'i':
+            options = input('race, index, unitToObserve (seperate by a space)\n').split(' ')
+            g.plotInGame(options[0],int(options[1]),options[2])
+        elif option == 'AmongGame' or option == 'a':
+            options = input('race, unitToObserve, unitToCompare, maxObs(-1 for maximum) (seperate by a space)\n').split(' ')
+            g.plotAmongGame(options[0], options[1],options[2], int(options[3]))
+        else:
+            print('wrong input')
+    except Exception:
+        print('wrong input or other error detected')
