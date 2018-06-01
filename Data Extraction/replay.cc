@@ -17,7 +17,7 @@
 //The Replay texts get sent to the s2client-api\build\bin folder
 //json won't work?
 //https://github.com/nlohmann/json
-#include "" // the json hpp
+#include "C:/Users/jjian_000/Desktop/Replays" // the json hpp
 
 //put your replay folder here
 const char* kReplayFolder = "";
