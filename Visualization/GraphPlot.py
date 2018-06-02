@@ -66,7 +66,7 @@ class Grapher:
     def toUpper(self,race, name):
         return race.upper() + '_' + name.upper()
 
-    def plotAmongGame(self, race, unitToObserve, unitToCompare, maxObs=None):
+    def plotAmongGame(self, race, unitToObserve, unitToCompare, maxObs=None, offset=0):
         maxObs = len(self.data[race]) if maxObs == -1 else maxObs - 1
         fig, ax = self.createGraph(maxObs)
         fig.canvas.set_window_title('{} vs {}'.format(unitToObserve, unitToCompare))
@@ -84,8 +84,8 @@ class Grapher:
                     if count >= maxObs: break
                     while(True):
                         try:
-                            obs_unit = self.data[race][count][unitToObserve]
-                            compare_unit = self.data[race][count][unitToCompare]
+                            obs_unit = self.data[race][offset+count][unitToObserve]
+                            compare_unit = self.data[race][offset+count][unitToCompare]
                         except KeyError:
                             pass
                         break
@@ -134,8 +134,8 @@ while(True):
             options = input('race, index, unitToObserve (seperate by a space)\n').split(' ')
             g.plotInGame(options[0],int(options[1]),options[2])
         elif option == 'AmongGame' or option == 'a':
-            options = input('race, unitToObserve, unitToCompare, maxObs(-1 for maximum) (seperate by a space)\n').split(' ')
-            g.plotAmongGame(options[0], options[1],options[2], int(options[3]))
+            options = input('race, unitToObserve, unitToCompare, maxObs(-1 for maximum), offset (seperate by a space)\n').split(' ')
+            g.plotAmongGame(options[0], options[1],options[2], int(options[3]), int(options[4]))
         else:
             print('wrong input')
     except Exception:
