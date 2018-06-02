@@ -3,7 +3,7 @@ import math
 import json
 import sys
 
-PATH = '/Users/jiehongjiang/Desktop/Projects/Dynamic-Army-Prediction/Data/data.json'
+PATH = '/Users/jiehongjiang/Desktop/Projects/Dynamic-Army-Prediction/Data/data-JJ.json'
 class Grapher:
     "graph processed data \
     the graph is designed to better observe the \
@@ -77,12 +77,18 @@ class Grapher:
 
         shape = ax.shape
         count = 0
+
         for row in range(shape[0]):
             for col in range(shape[1]):
                 try:
                     if count >= maxObs: break
-                    obs_unit = self.data[race][count][unitToObserve]
-                    compare_unit = self.data[race][count][unitToCompare]
+                    while(True):
+                        try:
+                            obs_unit = self.data[race][count][unitToObserve]
+                            compare_unit = self.data[race][count][unitToCompare]
+                        except KeyError:
+                            pass
+                        break
 
                     #max_time
                     max_time = 0
@@ -99,9 +105,6 @@ class Grapher:
                     count += 1
                 except StopIteration:
                     break
-                except KeyError:
-                    count += 1
-                    continue
             
         
         fig.tight_layout()
