@@ -32,17 +32,19 @@ class Grapher:
 
     def plotInGame(self, race, index, unitToObserve):
         unitToObserve = self.toUpper(race, unitToObserve)
-        totalUnits = len(self.data[race][index])
-        max_time = self.getMax(self.data[race][index])
 
         #creat the sublot
-        fig, ax = self.createGraph(totalUnits)
+        
 
         while(True):
             try:
                 obs_unit = self.data[race][index][unitToObserve] # the unit to be compared to all others
+                totalUnits = len(self.data[race][index])
+                max_time = self.getMax(self.data[race][index])
+                fig, ax = self.createGraph(totalUnits)
             except KeyError:
-                pass
+                index+=1
+                continue
             break
 
         keys = self.data[race][index].keys() #names of the units
@@ -56,8 +58,8 @@ class Grapher:
                     key = next(keyIter)
                     compare_unit = self.data[race][index][key]
 
-                    ax[row,col].plot(obs_unit,range(len(obs_unit)),linestyle='',marker="o",markersize=0.7)
-                    ax[row,col].plot(compare_unit,range(len(compare_unit)),linestyle='',marker="o",markersize=0.7)
+                    ax[row,col].plot(obs_unit,range(len(obs_unit)), 'ro',marker="o",markersize=0.7)
+                    ax[row,col].plot(compare_unit,range(len(compare_unit)),'ro', marker="o",markersize=0.7)
 
                     ax[row,col].set_title(key.split('_')[1].lower(),loc='center')
                     ax[row,col].set_xlim(0,max_time + 500)
@@ -93,7 +95,9 @@ class Grapher:
                             obs_unit = self.data[race][offset+count][unitToObserve]
                             compare_unit = self.data[race][offset+count][unitToCompare]
                         except KeyError:
-                            pass
+                            count+=1
+                            maxObs+=1
+                            continue
                         break
 
                     #max_time
@@ -101,8 +105,8 @@ class Grapher:
                     for n in obs_unit + compare_unit:
                         if n > max_time: max_time = n
 
-                    ax[row,col].plot(obs_unit,range(len(obs_unit)),linestyle='',marker="o",markersize=0.7,label=unitToObserve)
-                    ax[row,col].plot(compare_unit,range(len(compare_unit)),linestyle='',marker="o",markersize=0.7,label=unitToCompare)
+                    ax[row,col].plot(obs_unit,range(len(obs_unit)),'ro',marker="o",markersize=0.7,label=unitToObserve)
+                    ax[row,col].plot(compare_unit,range(len(compare_unit)), 'ro' ,marker="o",markersize=0.7,label=unitToCompare)
 
                     
                     ax[row,col].set_xlim(0,max_time + 500)
@@ -116,6 +120,19 @@ class Grapher:
         fig.tight_layout()
         plt.show()
 
+
+    def plotUnit(self,race, unitToPlot):
+        units = []
+        unitToPlot = self.toUpper(race, unitToPlot)
+        for g in self.data[race]:
+            if unitToPlot in g:
+                units.append(g[unitToPlot])
+        count = 0
+        for u in units:
+            count += 1
+            plt.plot(u,range(len(u)), 'ro', marker='o', markersize=0.7)
+        print(count)
+        plt.show()
     def createGraph(self,rows):
         COLS = 5
         rows = math.ceil(rows/float(COLS))
@@ -135,14 +152,17 @@ g = Grapher()
 
 while(True):
     try:
-        option = input('InGame(i) or AmongGame(a): ')
+        option = input('InGame(i), AmongGame(a), UnitPlot(u): ')
         if option == 'InGame' or option == 'i':
             options = input('race, index, unitToObserve (seperate by a space)\n').split(' ')
             g.plotInGame(options[0],int(options[1]),options[2])
         elif option == 'AmongGame' or option == 'a':
             options = input('race, unitToObserve, unitToCompare, maxObs(-1 for maximum), offset (seperate by a space)\n').split(' ')
             g.plotAmongGame(options[0], options[1],options[2], int(options[3]), int(options[4]))
+        elif option =='UnitPlot' or option == 'u':
+            options = input('race, unitToPlot (seperate by a space)\n').split(' ')
+            g.plotUnit(options[0], options[1])
         else:
             print('wrong input')
-    except Exception:
-        print('wrong input or other error detected')
+    except Exception as e:
+        print(e)
