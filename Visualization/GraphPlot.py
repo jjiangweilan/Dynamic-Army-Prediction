@@ -38,7 +38,13 @@ class Grapher:
         #creat the sublot
         fig, ax = self.createGraph(totalUnits)
 
-        obs_unit = self.data[race][index][unitToObserve] # the unit to be compared to all others
+        while(True):
+            try:
+                obs_unit = self.data[race][index][unitToObserve] # the unit to be compared to all others
+            except KeyError:
+                pass
+            break
+
         keys = self.data[race][index].keys() #names of the units
         
         keyIter = iter(keys)
