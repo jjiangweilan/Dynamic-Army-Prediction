@@ -3,7 +3,7 @@ import math
 import json
 import sys
 
-PATH = '/Users/jiehongjiang/Desktop/Projects/Dynamic-Army-Prediction/Data/data-JJ.json'
+PATH = '/Users/jiehongjiang/Desktop/Projects/Dynamic-Army-Prediction/Data/data.json'
 class Grapher:
     "graph processed data \
     the graph is designed to better observe the \
@@ -11,7 +11,7 @@ class Grapher:
     "
 
     def __init__(self):
-        with open(PATH) as f:
+        with open(PATH,'r') as f:
             self.data = json.load(f) #TO_DO: data to plot
 
         self.processData()
@@ -34,8 +34,6 @@ class Grapher:
         unitToObserve = self.toUpper(race, unitToObserve)
 
         #creat the sublot
-        
-
         while(True):
             try:
                 obs_unit = self.data[race][index][unitToObserve] # the unit to be compared to all others
@@ -127,12 +125,13 @@ class Grapher:
         for g in self.data[race]:
             if unitToPlot in g:
                 units.append(g[unitToPlot])
-        count = 0
+
         for u in units:
-            count += 1
             plt.plot(u,range(len(u)), 'ro', marker='o', markersize=0.7)
-        print(count)
+
+        plt.xlim(0)
         plt.show()
+
     def createGraph(self,rows):
         COLS = 5
         rows = math.ceil(rows/float(COLS))
