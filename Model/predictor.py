@@ -2,6 +2,12 @@ import numpy as np
 import math
 import json
 from collections import defaultdict
+import matplotlib.pyplot as plt
+#improvemnt we can work on
+#improve unit density function
+#tune parameters
+
+
 PATH = '/Users/jiehongjiang/Desktop/Projects/Dynamic-Army-Prediction/Data/data.json'
 STOP_UNITS = set([
     'ZERG_LOCUSTMP','ZERG_LARVA','ZERG_CHANGELING','ZERG_DRONE','ZERG_OVERLORD','ZERG_CREEPTUMOR','ZERG_CREEPTUMORQUEEN',
@@ -14,6 +20,7 @@ class Frame:
 
 class Predictor:
     def __init__(self):
+        self.densitySpan = 500
         with open(PATH) as f:
             self.json_data = json.load(f) #TO_DO: data to plot
 
@@ -26,7 +33,7 @@ class Predictor:
         self._makeDensity(2600)
 
     def predict(self, race,obsUnit, time):
-        timeFrame = int(time / 2600)
+        timeFrame = int(time / self.densitySpan)
         unitVar = defaultdict(lambda:[])
         unitVarAvg = {}
 
@@ -43,7 +50,8 @@ class Predictor:
         normalizedBTD = self._getNormalizedBTD()
         for k in unitVarAvg:
             if timeFrame < len(normalizedBTD[race][k]):
-                unitVarAvg[k] *=  pow(math.e, -normalizedBTD[race][k][timeFrame])
+                weight = normalizedBTD[race][k][timeFrame]
+                unitVarAvg[k] *=  weight if weight != 0 else math.inf
             else:
                 unitVarAvg[k] *= math.e
 
@@ -66,13 +74,33 @@ class Predictor:
             for unit in self.unitBuiltTime[r]:
                 sort = sorted(self.unitBuiltTime[r][unit])
 
-                last = 0
-                tf = timeFrame
+                #loop to the ealiest time
+                preElementNumber = int(sort[0] / self.densitySpan)
+                self.unitBuiltTimeDensity[r][unit] = [0 for _ in range(preElementNumber)]
+
+                tf = self.densitySpan
                 for i,x in enumerate(sort):
                     if x > tf:
-                        self.unitBuiltTimeDensity[r][unit].append(float(i-last) / len(sort))
-                        last = i
-                        tf += timeFrame
+                        self.unitBuiltTimeDensity[r][unit].append(self._findTotalNumber(sort,i,timeFrame) / len(sort))
+                        tf += self.densitySpan
+    
+    def _findTotalNumber(self,array,index,timeFrame):
+        mid = array[index]
+        left = array[index] - timeFrame/2
+        right = array[index] + timeFrame/2
+
+        start = 0
+        end = len(array)
+        startF = False
+        for i,v in enumerate(array):
+            if v > left and startF == False:
+                start = i
+                startF = True
+            if v > right:
+                end = i
+                break
+        return end - start
+
     def _process(self):
         for game in self.json_data:
             race = list(game.keys())[0].split('_')[0].lower()
@@ -120,9 +148,6 @@ class Predictor:
 
 p = Predictor()
 
-#graph
-import matplotlib.pyplot as plt
-
 #observe variance
 def obsVar(race, unit):
     #print multiple figs which have 3 rows' axis
@@ -144,23 +169,21 @@ def obsVar(race, unit):
     plt.show()
     plt.cla()
 
-
-    
-
 def obsBuiltTime(race,unit): 
     unit = race.upper() + '_' + unit.upper()
     fig, ax = plt.subplots(nrows=2)
     ax[0].plot(p.unitBuiltTime[race][unit], range(len(p.unitBuiltTime[race][unit])),'ro',marker="o",markersize=0.7)
-    print(p.unitBuiltTimeDensity[race][unit])
     ax[1].plot(range(len(p.unitBuiltTimeDensity[race][unit])),p.unitBuiltTimeDensity[race][unit])
     ax[0].set_xlim(0)
     ax[1].set_ylim((0,1))
     plt.show()
-RACE='protoss'
-UNIT='HIGHTEMPLAR'
 
+RACE='zerg'
+UNIT='SWARMHOSTMP'
+TIME=20 *60*24
+x = p._getNormalizedBTD()
 
-p.predict('protoss',['ZEALOT','ROBOTICSFACILITY','STALKER','FORGE'],18000)
+p.predict('zerg',['zergling','roach','ULTRALISKCAVERN'],TIME)
 
 
 
