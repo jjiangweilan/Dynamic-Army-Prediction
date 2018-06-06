@@ -50,8 +50,7 @@ class Predictor:
         normalizedBTD = self._getNormalizedBTD()
         for k in unitVarAvg:
             if timeFrame < len(normalizedBTD[race][k]):
-                weight = normalizedBTD[race][k][timeFrame]
-                unitVarAvg[k] *=  weight if weight != 0 else math.inf
+                unitVarAvg[k] *=  pow(math.e, -normalizedBTD[race][k][timeFrame]) if normalizedBTD[race][k][timeFrame]!= 0 else math.inf
             else:
                 unitVarAvg[k] *= math.e
 
@@ -85,7 +84,6 @@ class Predictor:
                         tf += self.densitySpan
     
     def _findTotalNumber(self,array,index,timeFrame):
-        mid = array[index]
         left = array[index] - timeFrame/2
         right = array[index] + timeFrame/2
 
@@ -124,7 +122,7 @@ class Predictor:
         #return a 1d array that's sorted by Frame.time   
         currGame = []
         for unit,times in game.items(): 
-            u = [Frame(unit, t) for t in times if unit not in STOP_UNITS and 'ZERG_CHANGEL' not in unit]
+            u = [Frame(unit, t) for t in times if unit not in STOP_UNITS and 'ZERG_CHANGEL' not in unit and 'BROODLING' not in unit]
             currGame += u
         currGame = sorted(currGame, key=lambda x:x.time)
         
@@ -183,7 +181,8 @@ UNIT='SWARMHOSTMP'
 TIME=20 *60*24
 x = p._getNormalizedBTD()
 
-p.predict('zerg',['zergling','roach','ULTRALISKCAVERN'],TIME)
+    
+p.predict('zerg',['zergling','roach'],TIME)
 
 
 
