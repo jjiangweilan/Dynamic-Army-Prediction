@@ -50,7 +50,10 @@ class Predictor:
         normalizedBTD = self._getNormalizedBTD()
         for k in unitVarAvg:
             if timeFrame < len(normalizedBTD[race][k]):
-                unitVarAvg[k] *=  pow(math.e, -normalizedBTD[race][k][timeFrame]) if normalizedBTD[race][k][timeFrame]!= 0 else math.inf
+                if k == 'ZERG_SWARMHOSTMP' : 
+                    print(timeFrame)
+                    print(normalizedBTD[race][k])
+                unitVarAvg[k] *=  pow(math.e, -normalizedBTD[race][k][timeFrame]) if normalizedBTD[race][k][timeFrame] != 0 else math.inf
             else:
                 unitVarAvg[k] *= math.e
 
@@ -149,7 +152,7 @@ p = Predictor()
 #observe variance
 def obsVar(race, unit):
     #print multiple figs which have 3 rows' axis
-
+    "graph the first encounter of the unit"
     unit = race.upper() + '_' + unit.upper()
     last=0
     count = 0
@@ -168,6 +171,7 @@ def obsVar(race, unit):
     plt.cla()
 
 def obsBuiltTime(race,unit): 
+    "graph the built time using all the data"
     unit = race.upper() + '_' + unit.upper()
     fig, ax = plt.subplots(nrows=2)
     ax[0].plot(p.unitBuiltTime[race][unit], range(len(p.unitBuiltTime[race][unit])),'ro',marker="o",markersize=0.7)
@@ -177,12 +181,12 @@ def obsBuiltTime(race,unit):
     plt.show()
 
 RACE='zerg'
-UNIT='SWARMHOSTMP'
-TIME=20 *60*24
-x = p._getNormalizedBTD()
+UNIT='roach'
+TIME=14 *60*24
 
-    
-p.predict('zerg',['zergling','roach'],TIME)
+obsVar(RACE,UNIT)
+print(p.unitBuiltTime['zerg']['ZERG_ULTRALISKCAVERN'])
+p.predict('protoss',['zealot','immortal','stalker','sentry','roboticsfacility'],TIME)
 
 
 
