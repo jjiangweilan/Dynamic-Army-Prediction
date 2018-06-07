@@ -216,3 +216,6 @@ the validation set exactly once, and then we will average the accuracy
 determined from each test to obtain a final percentage of the accuracy of our
 model.
 
+#### Setting Up the Program
+There are several steps that are required to run this program:
+1. 
