@@ -216,16 +216,16 @@ the validation set exactly once, and then we will average the accuracy
 determined from each test to obtain a final percentage of the accuracy of our
 model.
 
-#### Setting Up the Program
-There are several steps that are required to run this program:
+# Setting Up the Program
 
-# Data Extraction
-1. How to : I. Replace your s2client-api/examples/replay.cc file
-II. Get Microsoft Visual Studio and Build s2client-api 
-(Install api : https://github.com/Blizzard/s2client-api/blob/master/docs/building.md)
-III. run replay.exe (just type this in and press enter on terminal or cmd)
-IV. At the end of every match, the game should 
-V. The Log should be located in s2client-api\build\bin
+#### Data Extraction
+1. How to : 
+  a. Replace your s2client-api/examples/replay.cc file
+  b. Get Microsoft Visual Studio and Build s2client-api 
+  (Install api : https://github.com/Blizzard/s2client-api/blob/master/docs/building.md)
+  c. run replay.exe (just type this in and press enter on terminal or cmd)
+  d. At the end of every match, the game should 
+  e. The Log should be located in s2client-api\build\bin
 4. Issues: A. I would like to format it better (Jiehong wants dictionary format
 like  x = {"zergling" : ['1', '2', '3', '4', '5', '9'], ...}
 B. convert the weird time units to minutes and seconds
