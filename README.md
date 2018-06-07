@@ -219,32 +219,32 @@ model.
 # Setting Up the Program
 
 #### Data Extraction
-1. How to : 
+How to:
 
-  a. Replace your s2client-api/examples/replay.cc file
+  1. Replace your s2client-api/examples/replay.cc file
   
-  b. Open the replay.cc file and go to line 21. There should be a line of code that looks something like this : 
+  2. Open the replay.cc file and go to line 21. There should be a line of code that looks something like this : 
   
   const char* kReplayFolder = "C:/Program Files (x86)/StarCraft II/Replays/Used/";
   
   This is where the replay files should be located for data extraction.
   
-  c. If you wish to change the replay directory, replace the code inside of the quotations marks with your desired directory.
+  3. If you wish to change the replay directory, replace the code inside of the quotations marks with your desired directory.
   
-  d. Get Microsoft Visual Studio and Build s2client-api 
+  4. Get Microsoft Visual Studio and Build s2client-api 
   (Install api : https://github.com/Blizzard/s2client-api/blob/master/docs/building.md)
   
-  e. run replay.exe (just type this in and press enter on terminal or cmd)
+  5. run replay.exe (just type this in and press enter on terminal or cmd)
   
-  f. At the end of every match, the terminal/cmd should output a json formatted unit count to the screen.
+  6. At the end of every match, the terminal/cmd should output a json formatted unit count to the screen.
   
-  g. At the end of the first game, a file called "data.json" should be created in your s2client-api/build/bin folder
+  7. At the end of the first game, a file called "data.json" should be created in your s2client-api/build/bin folder
   
-  h. Every time the json formatted unit count gets printed on to the terminal/cmd, the data.json file will be updated with the new data
+  8. Every time the json formatted unit count gets printed on to the terminal/cmd, the data.json file will be updated with the new data
   
-  g. This will continue until the program has run through ALL of the replays in the replay directory. So if you just want to analyze one game, make sure that there is only one game in your replay directory. 
+  9. This will continue until the program has run through ALL of the replays in the replay directory. So if you just want to analyze one game, make sure that there is only one game in your replay directory. 
   
-  f. If you wish to rerun this program delete your prior data.json or move it out of the bin folder, then you can run replay.exe again. 
+  10. If you wish to rerun this program delete your prior data.json or move it out of the bin folder, then you can run replay.exe again. 
   
   #### Data Visualization 
   
@@ -253,6 +253,7 @@ model.
   In the UnitLog branch of this repository there are several zip files. Some of these are prototypes of the data extraction replay.cc program. The programs in these zip files are similar to the main replay.cc file in that it prints out data into the bin folder, but it is just a build order txt file instead of the json unit log file. There is also a tutorial.cc file that can log the build order for live games. More details are in the README inside these zip files. 
   
   UnitLog.zip : Live Games
+  
   UnitLogReplays.zip : Build orders for replays
   
 #### Win Prediction Program 
