@@ -257,4 +257,67 @@ How to:
   UnitLogReplays.zip : Build orders for replays
   
 #### Win Prediction Program 
+Data Extraction for Win Loss Prediction
+
+Win Loss requires specific data and therefore requires additional data collection. 
+
+
+How to:
+
+1. Replace the s2client-api/examples/sc2_coordinator with the coordinator file sc2-Coordinator from the WinLoss prediction repo. 
+
+
+2. This file will extract the enemy data
+
+
+3. Now replace the pre-existing s2client-api/examples/replay.cc file with the replay.cc file found in WinLoss prediction. 
+
+
+4.Make sure to change the paths for kReplayFolder to the location of your file
+	a.This file extracts health information along with the number of 	units created at current moment in time. 
+
+
+5.Follow the same steps as stated above for normal data extraction into the JSON file. 
+
+
+6.Convert this JSON into a .txt file and run this file with win_loss_parser.py to compute and extract the necessary data to run with Predict.py. 
+
+
+Predict.py Instructions
+Loading Input File: 
+
+
+1.Launch Microsoft Excel and click on the parsed .txt file and select “import” to display the Text Import Wizard.
+
+
+2. Select “Fixed Width” and click “Next”.
+
+
+3.Click on the line in the data preview to create the necessary field break lines. Each break line should be created to separate one field from the other, then click “Next”.
+
+
+4.Click “Finish”, “Ok”, then import the data
+
+
+5.Save your file, select “CSV(Comma delimited)”.
+
+
+Running Predict.py
+1.To run Predict.py, you will need to have Python installed on your system along with the dependencies such as Numpy, Pandas etc. 
+	a.We used Enthought’s python IDE Canopy which supports all the		dependencies.
+
+	Link: https://www.enthought.com/product/canopy/. 
+
+
+2.Be sure to replace the following path in Predict.py to where your specific data file islocated 
+
+
+3.Now simply, if using Canopy, run your files by pressing the build green arrow at the top of the interface.
+
+
+
+
+
+
+
 
