@@ -14,7 +14,7 @@
 
 -------------
 ### GITHUB LINK: https://github.com/jjiangweilan/Dynamic-Army-Prediction
-### PROJECT REPORT: (insert link once committed)
+### PROJECT REPORT: https://github.com/jjiangweilan/Dynamic-Army-Prediction/upload/master
 
 ## **I. INTRODUCTION**
 
@@ -22,7 +22,7 @@ StarCraft II is a RTS game where players gather resources and strategically spen
 
 ## **II. OBJECTIVE**
 
-Our main objective is to create an algorithm that predicts the the enemy’s army composition given the information that’s been gathered by scouts, including construction units, buildings, and current army formation. We call this **Dynamic Army Prediction**. Our secondary objective is to further utilize the same extracted data to create a model that predicts the player’s chance of winning based on their opening strategy. We call this **Win Loss Prediction**. Click [this](proposal link) for more information on these models.
+Our main objective is to create an algorithm that predicts the the enemy’s army composition given the information that’s been gathered by scouts, including construction units, buildings, and current army formation. We call this **Dynamic Army Prediction**. Our secondary objective is to further utilize the same extracted data to create a model that predicts the player’s chance of winning based on their opening strategy. We call this **Win Loss Prediction**. Click [https://github.com/jjiangweilan/Dynamic-Army-Prediction/upload/master](proposal link) for more information on these models.
 
 ## **III. SOLUTION**
 
