@@ -33,19 +33,10 @@ First Encounter is designed to calculate the “relative strength” relationshi
 ```
 data[‘race’][‘observedUnit’][‘comparedUnit’] = [array of first encounters]
 ```
-After creating the first encounter array for all units, we take the variance of each array and define this term as its “relative strength.” The main idea behind this is that among all StarCraft games, there is a high probability of a set of units being created following the creation of other specific units. The relative strength relationships mentioned earlier are represented by the variance that is calculated by the combination of all data. The intuition is that if we have low first encounter variance between two units, then we can say that these two units also have a strong relative strength relationship. In short, the lower the variance, the greater the chance of that unit being created. For example, take the relative strength relationship between Spires and other units:
-
-![](https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/spire_relative_strength.png)
-
-This output contains the “Relative Strength Relationship” between Spires and other units. The numerical values are calculated from the first encounter array mentioned above. Each numerical value corresponds to a score representing the possibility of the related unit being created. The lower the score, the higher the probability of the enemy building that specific unit. From this output we can see that the score for Mutalisk is very low in comparison to the others. This means that these units have the greatest possibility of being built following the creation of Spires. Because we only extracted data from 70 games, our prediction model is inaccurate in predicting build orders late in the game, however, the model performs somewhat accurately for early game predictions.
-The relative strength and first encounter calculations alone do not take into account the influences the game clock and the number of created units has on build orders. In order to solve this problem, we weight the relative strength values by the normalized “Build Time Density.” The intuition behind this is that specific units are more likely to be created during specific times of the game. For example, take the graphs of the Build Time and Build Density for Hydralisks:
-
-![](https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/hydralisk_build_time_density.png)
-
-From these graphs, we can clearly see that Hydralisks are more likely to be built in the middle of the game rather than right at the start or closer to the end. By weighing the relative strength with the normalized unit density, we are able to increase and decrease the scores shown in Figure 2 based on the probability of these units being created during specific times of the game. At its current state, the Dynamic Army Predictor does not take into account the number of units seen by the player- it creates its predictions based on the unit type and game clock alone.
+After creating the first encounter array for all units, we take the variance of each array and define this term as its “relative strength.” The main idea behind this is that among all StarCraft games, there is a high probability of a set of units being created following the creation of other specific units. The relative strength relationships mentioned earlier are represented by the variance that is calculated by the combination of all data. The intuition is that if we have low first encounter variance between two units, then we can say that these two units also have a strong relative strength relationship. In short, the lower the variance, the greater the chance of that unit being created. 
 
 ### WIN LOSS PREDICTION
-The win loss predictor predicts the probability of a certain unit winning a game. Our original approach sought to explore the Lanchester Model, but given the short time frame we decided instead to explore logistic Regression. logistic Regression, we decided, was quite appropriate for the situation at hand because when units are first created, the growth of the number of units accelerates quickly and as the actual battle begins, the number start to incline. With a logistic fitting we can then go on to predict the win loss probabilities for future units of the same type using their health values and quantities.Instead of using just the number of units, we are also examining the total health of the units as well. The health is a good indication of the strength of a certain unit type because the more health a unit has, the longer it is able to withstand attacks and survive. Our version of the logistic Regression utilizes the number of units and total health. Then it scales the effect across multiple attribution values in order to come up with an accurate fitting. We then take the given fit and use the inbuilt python PANDAS predict mechanism to we predict the win loss probability for the player. However, this prediction model requires both player to be the same race as it compares the amount and total health a specific unit that both sides possess. The coefficients derived from the logistic regression can also be applied to the Lanchester model referenced in the introduction in order to dynamically find the win loss probabilities rather than statically as we currently do. However, due to time constraints, we were not able to finish its implementation of Dynamic Win Loss Prediction. At its current state, Win Loss Prediction can only determine the chance of a player’s victory if they are playing as the same race as the opponent. 
+The win loss predictor predicts the probability of a certain unit winning a game. Our original approach sought to explore the Lanchester Model, but given the short time frame we decided instead to explore logistic Regression. logistic Regression, we decided, was quite appropriate for the situation at hand because when units are first created, the growth of the number of units accelerates quickly and as the actual battle begins, the number start to incline. With a logistic fitting we can then go on to predict the win loss probabilities for future units of the same type using their health values and quantities. The health is a good indication of the strength of a certain unit type because the more health a unit has, the longer it is able to withstand attacks and survive. Then it scales the effect across multiple attribution values in order to come up with an accurate fitting. We then take the given fit and use the inbuilt python PANDAS predict mechanism to we predict the win loss probability for the player. However, this prediction model requires both player to be the same race as it compares the amount and total health a specific unit that both sides possess. The coefficients derived from the logistic regression can also be applied to the Lanchester model referenced in the introduction in order to dynamically find the win loss probabilities rather than statically as we currently do. However, due to time constraints, we were not able to finish its implementation of Dynamic Win Loss Prediction. At its current state, Win Loss Prediction can only determine the chance of a player’s victory if they are playing as the same race as the opponent. 
 
 ![](https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/Screen%20Shot%202018-06-06%20at%2010.59.08%20PM.png)
 
@@ -141,40 +132,43 @@ Win Loss requires specific data and therefore requires additional data collectio
 
 How to:
 
-1.Replace the s2client-api/examples/sc2_coordinator with the coordinator file sc2-Coordinator from the WinLoss prediction repo. 
+  1. Replace the s2client-api/examples/sc2_coordinator with the coordinator file sc2-Coordinator from the WinLoss prediction
+     repo. 
 
-This file will extract the enemy data
+     This file will extract the enemy data
 
-3.Now replace the pre-existing s2client-api/examples/replay.cc file with the replay.cc file found in WinLoss prediction. 
+  2. Now replace the pre-existing s2client-api/examples/replay.cc file with the replay.cc file found in WinLoss prediction. 
 
-4.Make sure to change the paths for kReplayFolder to the location of your file
+  4. Make sure to change the paths for kReplayFolder to the location of your file
+     
+     This file extracts health information along with the number of units created at current moment in time. 
 
-This file extracts health information along with the number of units created at current moment in time. 
+  5. Follow the same steps as stated above for normal data extraction into the JSON file. 
 
-5.Follow the same steps as stated above for normal data extraction into the JSON file. 
+  6. Convert this JSON into a .txt file and run this file with win_loss_parser.py to compute and extract the necessary data.
 
-6.Convert this JSON into a .txt file and run this file with win_loss_parser.py to compute and extract the necessary data to run with Predict.py. 
+  ### Predict.py Instructions
 
-### Predict.py Instructions
+  #### Loading Input File
 
-#### Loading Input File
+  1. Launch Microsoft Excel and click on the parsed .txt file and select “import” to display the Text Import Wizard.
 
-1.Launch Microsoft Excel and click on the parsed .txt file and select “import” to display the Text Import Wizard.
+  2. Select “Fixed Width” and click “Next”.
 
-2.Select “Fixed Width” and click “Next”.
+  3. Click on the line in the data preview to create the necessary field break lines. Each break line should be created to
+  separate one field from the other, then click “Next”.
 
-3.Click on the line in the data preview to create the necessary field break lines. Each break line should be created to separate one field from the other, then click “Next”.
+  4. Click “Finish”, “Ok”, then import the data
 
-4.Click “Finish”, “Ok”, then import the data
-
-5.Save your file, select “CSV(Comma delimited)”.
+  5. Save your file, select “CSV(Comma delimited)”.
 
 #### Running Predict.py
 
-1.To run Predict.py, you will need to have Python installed on your system along with the dependencies such as Numpy, Pandas etc. 
+  1. To run Predict.py, you will need to have Python installed on your system along with the dependencies such as Numpy,
+   Pandas etc. 
 
-We used Enthought’s python IDE Canopy which supports all the dependencies [link](https://www.enthought.com/product/canopy/) 
+   We used Enthought’s python IDE Canopy which supports all the dependencies [link](https://www.enthought.com/product/canopy/) 
 
-2.Be sure to replace the following path in Predict.py to where your specific data file islocated 
+  2. Be sure to replace the following path in Predict.py to where your specific data file islocated 
 
-3.Now simply, if using Canopy, run your files by pressing the build green arrow at the top of the interface.
+  3. Now simply, if using Canopy, run your files by pressing the build green arrow at the top of the interface.
