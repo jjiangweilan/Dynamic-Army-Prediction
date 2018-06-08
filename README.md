@@ -110,9 +110,7 @@ How to:
   
   10. If you wish to rerun this program delete your prior data.json or move it out of the bin folder, then you can run replay.exe again. 
   
-  ### Dynamic Army Prediction 
-  How to:
-
+  ### how to use Dynamic Army Prediction 
   1. open utilities/preprocessData.py, and change the PATH variable to where your data.json is. Then run the program. It will generate a new data.json in the Data folder.
   
   2. now with the processed data, open Model/predictor.py and change the PATH variable to where the processed data.json is. Please use absolute path.
@@ -167,9 +165,7 @@ How to:
 #### Running Predict.py
 
   1. To run Predict.py, you will need to have Python installed on your system along with the dependencies such as Numpy,
-   Pandas etc. 
-
-   We used Enthought’s python IDE Canopy which supports all the dependencies [link](https://www.enthought.com/product/canopy/) 
+   Pandas etc. We used Enthought’s python IDE Canopy which supports all the dependencies   [link](https://www.enthought.com/product/canopy/)                                          
 
   2. Be sure to replace the following path in Predict.py to where your specific data file islocated 
 
