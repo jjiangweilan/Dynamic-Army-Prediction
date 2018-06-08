@@ -110,7 +110,9 @@ How to:
   
   10. If you wish to rerun this program delete your prior data.json or move it out of the bin folder, then you can run replay.exe again. 
   
-  ### how to use Dynamic Army Prediction 
+  ### Dynamic Army Prediction 
+  How to:
+
   1. open utilities/preprocessData.py, and change the PATH variable to where your data.json is. Then run the program. It will generate a new data.json in the Data folder.
   
   2. now with the processed data, open Model/predictor.py and change the PATH variable to where the processed data.json is. Please use absolute path.
