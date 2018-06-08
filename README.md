@@ -1,6 +1,6 @@
-# STARCRAFT: DYNAMIC PREDICTION
+# **STARCRAFT: DYNAMIC PREDICTION**
 
-##GROUP MEMBERS
+## GROUP MEMBERS
 -------------
 
 | Group Member     | Email Address            | SID       |
@@ -30,19 +30,17 @@ Our main objective is to create an algorithm that predicts the the enemy’s arm
 
 Our solution combines two ideas that we call **First Encounter** and **Build Time Density**. 
 First Encounter is designed to calculate the “relative strength” relationship between any units, buildings and technologies in an unsupervised manner. We define this term as the difference between the time of creations of units. We calculate these values for each unit and then create an array of the “first encounter” values in the following format:
-'''
+```
 data[‘race’][‘observedUnit’][‘comparedUnit’] = [array of first encounters]
-'''
+```
 After creating the first encounter array for all units, we take the variance of each array and define this term as its “relative strength.” The main idea behind this is that among all StarCraft games, there is a high probability of a set of units being created following the creation of other specific units. The relative strength relationships mentioned earlier are represented by the variance that is calculated by the combination of all data. The intuition is that if we have low first encounter variance between two units, then we can say that these two units also have a strong relative strength relationship. In short, the lower the variance, the greater the chance of that unit being created. For example, take the relative strength relationship between Spires and other units:
 
-![spire_relative_strength]
-(https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/spire_relative_strength.png)
+![](https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/spire_relative_strength.png)
 
 This output contains the “Relative Strength Relationship” between Spires and other units. The numerical values are calculated from the first encounter array mentioned above. Each numerical value corresponds to a score representing the possibility of the related unit being created. The lower the score, the higher the probability of the enemy building that specific unit. From this output we can see that the score for Mutalisk is very low in comparison to the others. This means that these units have the greatest possibility of being built following the creation of Spires. Because we only extracted data from 70 games, our prediction model is inaccurate in predicting build orders late in the game, however, the model performs somewhat accurately for early game predictions.
 The relative strength and first encounter calculations alone do not take into account the influences the game clock and the number of created units has on build orders. In order to solve this problem, we weight the relative strength values by the normalized “Build Time Density.” The intuition behind this is that specific units are more likely to be created during specific times of the game. For example, take the graphs of the Build Time and Build Density for Hydralisks:
 
-![hydralisk_build_time_density]
-(https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/hydralisk_build_time_density.png)
+![](https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/hydralisk_build_time_density.png)
 
 From these graphs, we can clearly see that Hydralisks are more likely to be built in the middle of the game rather than right at the start or closer to the end. By weighing the relative strength with the normalized unit density, we are able to increase and decrease the scores shown in Figure 2 based on the probability of these units being created during specific times of the game. At its current state, the Dynamic Army Predictor does not take into account the number of units seen by the player- it creates its predictions based on the unit type and game clock alone.
 
@@ -50,13 +48,12 @@ From these graphs, we can clearly see that Hydralisks are more likely to be buil
 
 ## IV. TECHNOLOGY STACK
 
-![tech_stack]
-(https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/tech_stack.png)
+![](https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/tech_stack.png)
 
 ## V. EVALUATION
 
 We manually tested the Dynamic Army Predictor by extracting data from a replay file at a given time and running the prediction model based on the information gathered by scouting. The Dynamic Army Predictor then outputs the probability of certain units appearing based on the scouted information. For example, if scouts saw that the enemy had Zerglings, Roaches, and a Hydralisk Den at minute 14 of the game, the Dynamic Army Predictor would output the following:
-
+```
 'Zergling','hydraliskden','Roach' at 14:
 ZERG_HYDRALISK 866.6295873238444
 ZERG_MUTALISK 1184.0044180563987
@@ -81,12 +78,14 @@ ZERG_EVOLUTIONCHAMBER 10477.45197594935
 ZERG_INFESTATIONPIT 12011.998827522799
 ZERG_ULTRALISKCAVERN 12975.540372735573
 ZERG_SPAWNINGPOOL 19491.723274555447
-
+```
 This lists all the units the enemy’s chosen race could have and the probability of them creating that specific unit. More prediction results are shown in [here](https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/dynamic_army_prediction_results.txt). As mentioned earlier, the lower the score, the more likely the enemy will create that unit. We looked at the units with the lowest scores and then analyzed the replay the data was initially extracted from to see if these units were created. We repeated this process at varied times with different replay files and reached the conclusion that the Dynamic Model Predictor was mostly accurate early on during the game and as the game progresses, becomes more and more inaccurate. With extra time, we would increase the accuracy of our model by introducing a new variable into it- the amount of each unit seen by the player’s scouts. We would also test the data using the k-fold cross validation mentioned above in order to get more accurate results and be able to find the exact percentage of accuracy our model has.
 
 # Setting Up the Program
 
-#### Data Extraction
+## Dyanmic Army Prediction
+
+### Data Extraction
 How to:
 
   1. Replace your s2client-api/examples/replay.cc file
@@ -114,9 +113,9 @@ How to:
   
   10. If you wish to rerun this program delete your prior data.json or move it out of the bin folder, then you can run replay.exe again. 
   
-  #### Data Visualization 
+  ### Data Visualization 
   
-# Additional Programs
+### Additional Programs
 #### UnitLog branch
   In the UnitLog folder of this repository there are several zip files. Some of these are prototypes of the data extraction replay.cc program. The programs in these zip files are similar to the main replay.cc file in that it prints out data into the bin folder, but it is just a build order txt file instead of the json unit log file. There is also a tutorial.cc file that can log the build order for live games. More details are in the README inside these zip files. 
   
@@ -124,68 +123,48 @@ How to:
   
   UnitLogReplays.zip : Build orders for replays
   
-#### Win Prediction Program 
-Data Extraction for Win Loss Prediction
+## Win Loss Prediction 
+
+### Data Extraction
 
 Win Loss requires specific data and therefore requires additional data collection. 
-
 
 How to:
 
 1.Replace the s2client-api/examples/sc2_coordinator with the coordinator file sc2-Coordinator from the WinLoss prediction repo. 
 
-
-2.This file will extract the enemy data
-
+This file will extract the enemy data
 
 3.Now replace the pre-existing s2client-api/examples/replay.cc file with the replay.cc file found in WinLoss prediction. 
 
-
 4.Make sure to change the paths for kReplayFolder to the location of your file
-	a.This file extracts health information along with the number of 	units created at current moment in time. 
 
+This file extracts health information along with the number of units created at current moment in time. 
 
 5.Follow the same steps as stated above for normal data extraction into the JSON file. 
 
-
 6.Convert this JSON into a .txt file and run this file with win_loss_parser.py to compute and extract the necessary data to run with Predict.py. 
 
+### Predict.py Instructions
 
-Predict.py Instructions
-Loading Input File: 
-
+#### Loading Input File
 
 1.Launch Microsoft Excel and click on the parsed .txt file and select “import” to display the Text Import Wizard.
 
-
 2.Select “Fixed Width” and click “Next”.
-
 
 3.Click on the line in the data preview to create the necessary field break lines. Each break line should be created to separate one field from the other, then click “Next”.
 
-
 4.Click “Finish”, “Ok”, then import the data
-
 
 5.Save your file, select “CSV(Comma delimited)”.
 
+#### Running Predict.py
 
-Running Predict.py
 1.To run Predict.py, you will need to have Python installed on your system along with the dependencies such as Numpy, Pandas etc. 
-	a.We used Enthought’s python IDE Canopy which supports all the		dependencies.
 
-	Link: https://www.enthought.com/product/canopy/. 
-
+We used Enthought’s python IDE Canopy which supports all the dependencies [link](https://www.enthought.com/product/canopy/) 
 
 2.Be sure to replace the following path in Predict.py to where your specific data file islocated 
 
-
 3.Now simply, if using Canopy, run your files by pressing the build green arrow at the top of the interface.
-
-
-
-
-
-
-
-
