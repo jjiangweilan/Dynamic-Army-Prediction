@@ -77,6 +77,8 @@ ZERG_SPAWNINGPOOL 19491.723274555447
 ```
 This lists all the units the enemy’s chosen race could have and the probability of them creating that specific unit. More prediction results are shown in [here](https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/dynamic_army_prediction_results.txt). As mentioned earlier, the lower the score, the more likely the enemy will create that unit. We looked at the units with the lowest scores and then analyzed the replay the data was initially extracted from to see if these units were created. We repeated this process at varied times with different replay files and reached the conclusion that the Dynamic Model Predictor was mostly accurate early on during the game and as the game progresses, becomes more and more inaccurate. With extra time, we would increase the accuracy of our model by introducing a new variable into it- the amount of each unit seen by the player’s scouts. We would also test the data using the k-fold cross validation mentioned above in order to get more accurate results and be able to find the exact percentage of accuracy our model has.
 
+Due to the time restrictions and our last minute addition of the win loss prediction feature we were unable to perform Valgrind Testing as an assessment of accuracy. However based of the outcomes of the validation set and predictions from our predictor, we believe predictor still needs more work. It's slightly accurate when used within the first three or minutes in the game after which it began to scale largely too fast.
+
 
 # Setting Up the Program
 
@@ -110,12 +112,12 @@ How to:
   
   10. If you wish to rerun this program delete your prior data.json or move it out of the bin folder, then you can run replay.exe again. 
   
-  ### how to use Dynamic Army Prediction 
-  1. open utilities/preprocessData.py, and change the PATH variable to where your data.json is. Then run the program. It will generate a new data.json in the Data folder.
+  #### How to use Dynamic Army Prediction 
+  1. Open utilities/preprocessData.py, and change the PATH variable to where your data.json is. Then run the program. It will generate a new data.json in the Data folder.
   
-  2. now with the processed data, open Model/predictor.py and change the PATH variable to where the processed data.json is. Please use absolute path.
+  2. Now with the processed data, open Model/predictor.py and change the PATH variable to where the processed data.json is. Please use absolute path.
   
-  3.run the Model/predict.py and follow the prompt
+  3. Run the Model/predict.py and follow the prompt
 ### Additional Programs
 #### UnitLog branch
   In the UnitLog folder of this repository there are several zip files. Some of these are prototypes of the data extraction replay.cc program. The programs in these zip files are similar to the main replay.cc file in that it prints out data into the bin folder, but it is just a build order txt file instead of the json unit log file. There is also a tutorial.cc file that can log the build order for live games. More details are in the README inside these zip files. 
