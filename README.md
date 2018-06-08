@@ -165,7 +165,7 @@ How to:
 #### Running Predict.py
 
   1. To run Predict.py, you will need to have Python installed on your system along with the dependencies such as Numpy,
-   Pandas etc. We used Enthought’s python IDE Canopy which supports all the dependencies   [link](https://www.enthought.com/product/canopy/)                                          
+   Pandas etc. We used Enthought’s python IDE Canopy which supports all the dependencies here:  [link](https://www.enthought.com/product/canopy/)                                          
 
   2. Be sure to replace the following path in Predict.py to where your specific data file islocated 
 
