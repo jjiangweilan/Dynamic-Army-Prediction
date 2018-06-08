@@ -45,6 +45,11 @@ The relative strength and first encounter calculations alone do not take into ac
 From these graphs, we can clearly see that Hydralisks are more likely to be built in the middle of the game rather than right at the start or closer to the end. By weighing the relative strength with the normalized unit density, we are able to increase and decrease the scores shown in Figure 2 based on the probability of these units being created during specific times of the game. At its current state, the Dynamic Army Predictor does not take into account the number of units seen by the player- it creates its predictions based on the unit type and game clock alone.
 
 ### WIN LOSS PREDICTION
+The win loss predictor predicts the probability of a certain unit winning a game. Our original approach sought to explore the Lanchester Model, but given the short time frame we decided instead to explore logistic Regression. logistic Regression, we decided, was quite appropriate for the situation at hand because when units are first created, the growth of the number of units accelerates quickly and as the actual battle begins, the number start to incline. With a logistic fitting we can then go on to predict the win loss probabilities for future units of the same type using their health values and quantities.Instead of using just the number of units, we are also examining the total health of the units as well. The health is a good indication of the strength of a certain unit type because the more health a unit has, the longer it is able to withstand attacks and survive. Our version of the logistic Regression utilizes the number of units and total health. Then it scales the effect across multiple attribution values in order to come up with an accurate fitting. We then take the given fit and use the inbuilt python PANDAS predict mechanism to we predict the win loss probability for the player. However, this prediction model requires both player to be the same race as it compares the amount and total health a specific unit that both sides possess. The coefficients derived from the logistic regression can also be applied to the Lanchester model referenced in the introduction in order to dynamically find the win loss probabilities rather than statically as we currently do. However, due to time constraints, we were not able to finish its implementation of Dynamic Win Loss Prediction. At its current state, Win Loss Prediction can only determine the chance of a player’s victory if they are playing as the same race as the opponent. 
+
+![](https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/Screen%20Shot%202018-06-06%20at%2010.59.08%20PM.png)
+
+
 
 ## IV. TECHNOLOGY STACK
 
@@ -80,6 +85,7 @@ ZERG_ULTRALISKCAVERN 12975.540372735573
 ZERG_SPAWNINGPOOL 19491.723274555447
 ```
 This lists all the units the enemy’s chosen race could have and the probability of them creating that specific unit. More prediction results are shown in [here](https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/dynamic_army_prediction_results.txt). As mentioned earlier, the lower the score, the more likely the enemy will create that unit. We looked at the units with the lowest scores and then analyzed the replay the data was initially extracted from to see if these units were created. We repeated this process at varied times with different replay files and reached the conclusion that the Dynamic Model Predictor was mostly accurate early on during the game and as the game progresses, becomes more and more inaccurate. With extra time, we would increase the accuracy of our model by introducing a new variable into it- the amount of each unit seen by the player’s scouts. We would also test the data using the k-fold cross validation mentioned above in order to get more accurate results and be able to find the exact percentage of accuracy our model has.
+
 
 # Setting Up the Program
 
@@ -118,7 +124,7 @@ How to:
   
   2. now with the processed data, open Model/predictor.py and change the PATH variable to where the processed data.json is. Please use absolute path.
   
-  3. run the Model/predict.py and follow the prompt
+  3.run the Model/predict.py and follow the prompt
 ### Additional Programs
 #### UnitLog branch
   In the UnitLog folder of this repository there are several zip files. Some of these are prototypes of the data extraction replay.cc program. The programs in these zip files are similar to the main replay.cc file in that it prints out data into the bin folder, but it is just a build order txt file instead of the json unit log file. There is also a tutorial.cc file that can log the build order for live games. More details are in the README inside these zip files. 
