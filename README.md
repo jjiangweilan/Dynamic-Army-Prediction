@@ -50,6 +50,7 @@ The win loss predictor predicts the probability of a certain unit winning a game
 
 ![Results](https://raw.githubusercontent.com/jjiangweilan/Dynamic-Army-Prediction/master/GitHubPage/Predict_Results.png)
 
+These are the results for a run of Predict.py based of data extracted from replays supplieed by the sc2 API. eree wee can seee that altough probability of winning predictions per unit are being made, they are not accurate. 
 
 ## IV. TECHNOLOGY STACK
 
