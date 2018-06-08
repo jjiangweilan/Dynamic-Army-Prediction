@@ -118,7 +118,7 @@ How to:
   
   2. now with the processed data, open Model/predictor.py and change the PATH variable to where the processed data.json is. Please use absolute path.
   
-  3.run the Model/predict.py and follow the prompt
+  3. run the Model/predict.py and follow the prompt
 ### Additional Programs
 #### UnitLog branch
   In the UnitLog folder of this repository there are several zip files. Some of these are prototypes of the data extraction replay.cc program. The programs in these zip files are similar to the main replay.cc file in that it prints out data into the bin folder, but it is just a build order txt file instead of the json unit log file. There is also a tutorial.cc file that can log the build order for live games. More details are in the README inside these zip files. 
