@@ -264,13 +264,13 @@ Win Loss requires specific data and therefore requires additional data collectio
 
 How to:
 
-1. Replace the s2client-api/examples/sc2_coordinator with the coordinator file sc2-Coordinator from the WinLoss prediction repo. 
+1.Replace the s2client-api/examples/sc2_coordinator with the coordinator file sc2-Coordinator from the WinLoss prediction repo. 
 
 
-2. This file will extract the enemy data
+2.This file will extract the enemy data
 
 
-3. Now replace the pre-existing s2client-api/examples/replay.cc file with the replay.cc file found in WinLoss prediction. 
+3.Now replace the pre-existing s2client-api/examples/replay.cc file with the replay.cc file found in WinLoss prediction. 
 
 
 4.Make sure to change the paths for kReplayFolder to the location of your file
@@ -290,7 +290,7 @@ Loading Input File:
 1.Launch Microsoft Excel and click on the parsed .txt file and select “import” to display the Text Import Wizard.
 
 
-2. Select “Fixed Width” and click “Next”.
+2.Select “Fixed Width” and click “Next”.
 
 
 3.Click on the line in the data preview to create the necessary field break lines. Each break line should be created to separate one field from the other, then click “Next”.
