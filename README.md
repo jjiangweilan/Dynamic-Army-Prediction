@@ -10,7 +10,7 @@
 | Malini Pathakota | mmpathakota@ucdavis.edu  | 913241367 |
 | Hoseung Lee      | hoslee@ucdavis.edu       | 914001975 |
 | Lacey Campbell   | lbcampbell@ucdavis.edu   | 912170808 |
-| Sri Kavya Dindu  | sdindu@ucdavis.edu       | 650804061 |
+| Sri Kavya Dindu  | sdindu@ucdavis.edu       | 913022557 |
 
 -------------
 GITHUB LINK: 
