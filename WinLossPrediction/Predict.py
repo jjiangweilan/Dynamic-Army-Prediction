@@ -22,9 +22,11 @@ def cartesian(arrays, out=None):
         for j in xrange(1, arrays[0].size):
             out[j*m:(j+1)*m,1:] = out[0:m,1:]
     return out
+
     
 df = pd.read_csv("/Users/kavyadindu/Desktop/example.csv")
 df.columns = ["win", "UnitA_Health", "UnitB_Health", "Attribution"]
+
 #print df.std()
 #print pd.crosstab(df['win'], df['Attribution'], rownames=['win'])
 #print pd.crosstab(df['win'], df['Attribution'], rownames=['win'])
@@ -35,24 +37,33 @@ dummy_ranks = pd.get_dummies(df['Attribution'], prefix='Attribution')
 cols_to_keep = ['win', 'UnitA_Health', 'UnitB_Health']
 data = df[cols_to_keep].join(dummy_ranks.ix[:, 'Attribution_2':])
 #print data.head()
+
+
 data['intercept'] = 1.0
 train_cols = data.columns[1:]
 logit = sm.Logit(data['win'], data[train_cols])
 result = logit.fit()
 print result.summary()
+
+
 #print result.conf_int()
 #print np.exp(result.params)
 params = result.params
 conf = result.conf_int()
+
 #print conf
 conf['OR'] = params
 print np.exp(conf)
 UnitA_Healths = np.linspace(data['UnitA_Health'].min(), data['UnitA_Health'].max(), 10)
 #print UnitA_Healths
 UnitB_Healths = np.linspace(data['UnitB_Health'].min(), data['UnitB_Health'].max(), 10)
-#print UnitB_Healths
+
+
+
 combos = pd.DataFrame(cartesian([UnitA_Healths, UnitB_Healths, [1, 2, 3, 4], [1.]]))
 combos.columns = ['UnitA_Health', 'UnitB_Health', 'Attribution', 'intercept']
+
+
 dummy_ranks = pd.get_dummies(combos['Attribution'], prefix='Attribution')
 dummy_ranks.columns = ['Attribution_1', 'Attribution_2', 'Attribution_3', 'Attribution_4']
 cols_to_keep = ['UnitA_Health', 'UnitB_Health', 'Attribution', 'intercept']
@@ -61,7 +72,7 @@ combos['win_pred'] = result.predict(combos[train_cols])
 print combos.head()
 
 def isolate_and_plot(variable):
-    # isolate gre and class rank
+  
     grouped = pd.pivot_table(combos, values=['win_pred'], index=[variable, 'Attribution'],
                             aggfunc=np.mean)
   
@@ -81,5 +92,5 @@ def isolate_and_plot(variable):
 
 isolate_and_plot('UnitA_Health')
 
-#isolate_and_plot('UnitB_Health')
+
 
