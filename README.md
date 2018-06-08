@@ -44,7 +44,7 @@ The win loss predictor predicts the probability of a certain unit winning a game
 
 ## IV. TECHNOLOGY STACK
 
-![](https://github.com/jjiangweilan/Dynamic-Army-Prediction/blob/master/GitHubPage/tech_stack.png)
+![](https://raw.githubusercontent.com/jjiangweilan/Dynamic-Army-Prediction/master/GitHubPage/tech_stack.png)
 
 ## V. EVALUATION
 
