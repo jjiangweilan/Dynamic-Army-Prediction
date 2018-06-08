@@ -1,6 +1,7 @@
 import numpy as np 
 import math
 import json
+import sys
 from collections import defaultdict
 import matplotlib.pyplot as plt
 #improvemnt we can work on
@@ -180,13 +181,16 @@ def obsBuiltTime(race,unit):
     ax[1].set_ylim((0,1))
     plt.show()
 
-RACE='zerg'
-UNIT='roach'
-TIME=14 *60*24
 
-obsVar(RACE,UNIT)
-print(p.unitBuiltTime['zerg']['ZERG_ULTRALISKCAVERN'])
-p.predict('protoss',['zealot','immortal','stalker','sentry','roboticsfacility'],TIME)
+
+
+
+while(True):
+    params = input('enter the information follow this format: race unit1 unit2 unit3... time)\n').split(' ')
+    RACE=params[0]
+    UNITS=params[1:-1]
+    TIME=float(params[-1]) *60*24
+    p.predict(RACE,UNITS,TIME)
 
 
 
